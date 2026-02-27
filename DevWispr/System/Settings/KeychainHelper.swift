@@ -14,29 +14,21 @@ enum KeychainHelper {
     static func save(service: String, account: String, data: String) -> Bool {
         guard let encoded = data.data(using: .utf8) else { return false }
 
+        // Delete any existing item first (avoids errSecDuplicateItem).
+        _ = delete(service: service, account: account)
+
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
             kSecAttrAccount as String: account,
-            kSecUseDataProtectionKeychain as String: true,
-        ]
-
-        let attributes: [String: Any] = [
             kSecValueData as String: encoded,
         ]
 
-        // Try to update an existing item first.
-        let updateStatus = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
-        if updateStatus == errSecSuccess { return true }
-
-        // Item doesn't exist yet — add it.
-        var addQuery = query
-        addQuery.merge(attributes) { _, new in new }
-        let addStatus = SecItemAdd(addQuery as CFDictionary, nil)
-        if addStatus != errSecSuccess {
-            logger.error("Keychain save failed: \(addStatus)")
+        let status = SecItemAdd(query as CFDictionary, nil)
+        if status != errSecSuccess {
+            logger.error("Keychain save failed: \(status)")
         }
-        return addStatus == errSecSuccess
+        return status == errSecSuccess
     }
 
     static func load(service: String, account: String) -> String? {
@@ -46,7 +38,6 @@ enum KeychainHelper {
             kSecAttrAccount as String: account,
             kSecReturnData as String: true,
             kSecMatchLimit as String: kSecMatchLimitOne,
-            kSecUseDataProtectionKeychain as String: true,
         ]
 
         var result: AnyObject?
@@ -63,7 +54,6 @@ enum KeychainHelper {
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
             kSecAttrAccount as String: account,
-            kSecUseDataProtectionKeychain as String: true,
         ]
         let status = SecItemDelete(query as CFDictionary)
         if status != errSecSuccess && status != errSecItemNotFound {
