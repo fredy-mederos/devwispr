@@ -1,0 +1,670 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CB3124D72F4F000000D4DE9E /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = CB3124D62F4F000000D4DE9E /* HotKey */; };
+		CBBA457C2F502FDC00B35A08 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CBBA457B2F502FDC00B35A08 /* README.md */; };
+		CBFBA00A2F70000000000003 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CBFBA00A2F70000000000002 /* FirebaseAnalytics */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CB3124B92F4EE28800D4DE9E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB3124A12F4EE28600D4DE9E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CB3124A82F4EE28600D4DE9E;
+			remoteInfo = DevWispr;
+		};
+		CB3124C32F4EE28800D4DE9E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB3124A12F4EE28600D4DE9E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CB3124A82F4EE28600D4DE9E;
+			remoteInfo = DevWispr;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A79FF0B4E36E04C134E9F682 /* notarize_dmg.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; name = notarize_dmg.sh; path = scripts/notarize_dmg.sh; sourceTree = "<group>"; };
+		C044F6D64B676C4A39D9C51D /* create_dmg.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; name = create_dmg.sh; path = scripts/create_dmg.sh; sourceTree = "<group>"; };
+		CB3124A92F4EE28600D4DE9E /* DevWispr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DevWispr.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB3124B82F4EE28800D4DE9E /* DevWisprTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DevWisprTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB3124C22F4EE28800D4DE9E /* DevWisprUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DevWisprUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBBA457B2F502FDC00B35A08 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F0C14DAC11B1709FBC886A20 /* release.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; name = release.sh; path = scripts/release.sh; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CB3124AB2F4EE28600D4DE9F /* Exceptions for "DevWispr" folder in "DevWispr" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = CB3124A82F4EE28600D4DE9E /* DevWispr */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		CB3124AB2F4EE28600D4DE9E /* DevWispr */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CB3124AB2F4EE28600D4DE9F /* Exceptions for "DevWispr" folder in "DevWispr" target */,
+			);
+			path = DevWispr;
+			sourceTree = "<group>";
+		};
+		CB3124BB2F4EE28800D4DE9E /* DevWisprTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = DevWisprTests;
+			sourceTree = "<group>";
+		};
+		CB3124C52F4EE28800D4DE9E /* DevWisprUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = DevWisprUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CB3124A62F4EE28600D4DE9E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CB3124D72F4F000000D4DE9E /* HotKey in Frameworks */,
+				CBFBA00A2F70000000000003 /* FirebaseAnalytics in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CB3124B52F4EE28800D4DE9E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CB3124BF2F4EE28800D4DE9E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3030D2C80F43381841198F20 /* scripts */ = {
+			isa = PBXGroup;
+			children = (
+				C044F6D64B676C4A39D9C51D /* create_dmg.sh */,
+				A79FF0B4E36E04C134E9F682 /* notarize_dmg.sh */,
+				F0C14DAC11B1709FBC886A20 /* release.sh */,
+			);
+			path = scripts;
+			sourceTree = "<group>";
+		};
+		CB3124A02F4EE28600D4DE9E = {
+			isa = PBXGroup;
+			children = (
+				CB3124AB2F4EE28600D4DE9E /* DevWispr */,
+				CB3124BB2F4EE28800D4DE9E /* DevWisprTests */,
+				CB3124C52F4EE28800D4DE9E /* DevWisprUITests */,
+				CB3124AA2F4EE28600D4DE9E /* Products */,
+				CBBA457B2F502FDC00B35A08 /* README.md */,
+				3030D2C80F43381841198F20 /* scripts */,
+			);
+			sourceTree = "<group>";
+		};
+		CB3124AA2F4EE28600D4DE9E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CB3124A92F4EE28600D4DE9E /* DevWispr.app */,
+				CB3124B82F4EE28800D4DE9E /* DevWisprTests.xctest */,
+				CB3124C22F4EE28800D4DE9E /* DevWisprUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CB3124A82F4EE28600D4DE9E /* DevWispr */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CB3124CC2F4EE28800D4DE9E /* Build configuration list for PBXNativeTarget "DevWispr" */;
+			buildPhases = (
+				CB3124A52F4EE28600D4DE9E /* Sources */,
+				CB3124A62F4EE28600D4DE9E /* Frameworks */,
+				CB3124A72F4EE28600D4DE9E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CB3124AB2F4EE28600D4DE9E /* DevWispr */,
+			);
+			name = DevWispr;
+			packageProductDependencies = (
+				CB3124D62F4F000000D4DE9E /* HotKey */,
+				CBFBA00A2F70000000000002 /* FirebaseAnalytics */,
+			);
+			productName = DevWispr;
+			productReference = CB3124A92F4EE28600D4DE9E /* DevWispr.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CB3124B72F4EE28800D4DE9E /* DevWisprTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CB3124CF2F4EE28800D4DE9E /* Build configuration list for PBXNativeTarget "DevWisprTests" */;
+			buildPhases = (
+				CB3124B42F4EE28800D4DE9E /* Sources */,
+				CB3124B52F4EE28800D4DE9E /* Frameworks */,
+				CB3124B62F4EE28800D4DE9E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CB3124BA2F4EE28800D4DE9E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				CB3124BB2F4EE28800D4DE9E /* DevWisprTests */,
+			);
+			name = DevWisprTests;
+			productName = DevWisprTests;
+			productReference = CB3124B82F4EE28800D4DE9E /* DevWisprTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		CB3124C12F4EE28800D4DE9E /* DevWisprUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CB3124D22F4EE28800D4DE9E /* Build configuration list for PBXNativeTarget "DevWisprUITests" */;
+			buildPhases = (
+				CB3124BE2F4EE28800D4DE9E /* Sources */,
+				CB3124BF2F4EE28800D4DE9E /* Frameworks */,
+				CB3124C02F4EE28800D4DE9E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CB3124C42F4EE28800D4DE9E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				CB3124C52F4EE28800D4DE9E /* DevWisprUITests */,
+			);
+			name = DevWisprUITests;
+			productName = DevWisprUITests;
+			productReference = CB3124C22F4EE28800D4DE9E /* DevWisprUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CB3124A12F4EE28600D4DE9E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2630;
+				LastUpgradeCheck = 2630;
+				TargetAttributes = {
+					CB3124A82F4EE28600D4DE9E = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					CB3124B72F4EE28800D4DE9E = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = CB3124A82F4EE28600D4DE9E;
+					};
+					CB3124C12F4EE28800D4DE9E = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = CB3124A82F4EE28600D4DE9E;
+					};
+				};
+			};
+			buildConfigurationList = CB3124A42F4EE28600D4DE9E /* Build configuration list for PBXProject "DevWispr" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CB3124A02F4EE28600D4DE9E;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CB3124D52F4F000000D4DE9E /* XCRemoteSwiftPackageReference "HotKey" */,
+				CBFBA00A2F70000000000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = CB3124AA2F4EE28600D4DE9E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CB3124A82F4EE28600D4DE9E /* DevWispr */,
+				CB3124B72F4EE28800D4DE9E /* DevWisprTests */,
+				CB3124C12F4EE28800D4DE9E /* DevWisprUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CB3124A72F4EE28600D4DE9E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CBBA457C2F502FDC00B35A08 /* README.md in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CB3124B62F4EE28800D4DE9E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CB3124C02F4EE28800D4DE9E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CB3124A52F4EE28600D4DE9E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CB3124B42F4EE28800D4DE9E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CB3124BE2F4EE28800D4DE9E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CB3124BA2F4EE28800D4DE9E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CB3124A82F4EE28600D4DE9E /* DevWispr */;
+			targetProxy = CB3124B92F4EE28800D4DE9E /* PBXContainerItemProxy */;
+		};
+		CB3124C42F4EE28800D4DE9E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CB3124A82F4EE28600D4DE9E /* DevWispr */;
+			targetProxy = CB3124C32F4EE28800D4DE9E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		CB3124CA2F4EE28800D4DE9E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CB3124CB2F4EE28800D4DE9E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		CB3124CD2F4EE28800D4DE9E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DevWispr/DevWispr.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R72WZKM2MR;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_ARCHS = x86_64;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DevWispr/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DevWispr;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_LSUIElement = 1;
+				INFOPLIST_KEY_NSAccessibilityUsageDescription = "DevWispr uses Accessibility to insert transcribed text into the active app.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "DevWispr needs microphone access to record your speech for transcription.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 0.10;
+				PRODUCT_BUNDLE_IDENTIFIER = com.devwispr.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CB3124CE2F4EE28800D4DE9E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DevWispr/DevWispr.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R72WZKM2MR;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				EXCLUDED_ARCHS = x86_64;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DevWispr/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DevWispr;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_LSUIElement = 1;
+				INFOPLIST_KEY_NSAccessibilityUsageDescription = "DevWispr uses Accessibility to insert transcribed text into the active app.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "DevWispr needs microphone access to record your speech for transcription.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 0.10;
+				PRODUCT_BUNDLE_IDENTIFIER = com.devwispr.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		CB3124D02F4EE28800D4DE9E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R72WZKM2MR;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.devwispr.app.DevWisprTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DevWispr.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DevWispr";
+			};
+			name = Debug;
+		};
+		CB3124D12F4EE28800D4DE9E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R72WZKM2MR;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.devwispr.app.DevWisprTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DevWispr.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DevWispr";
+			};
+			name = Release;
+		};
+		CB3124D32F4EE28800D4DE9E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R72WZKM2MR;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.devwispr.app.DevWisprUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = DevWispr;
+			};
+			name = Debug;
+		};
+		CB3124D42F4EE28800D4DE9E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R72WZKM2MR;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.devwispr.app.DevWisprUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = DevWispr;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CB3124A42F4EE28600D4DE9E /* Build configuration list for PBXProject "DevWispr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CB3124CA2F4EE28800D4DE9E /* Debug */,
+				CB3124CB2F4EE28800D4DE9E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CB3124CC2F4EE28800D4DE9E /* Build configuration list for PBXNativeTarget "DevWispr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CB3124CD2F4EE28800D4DE9E /* Debug */,
+				CB3124CE2F4EE28800D4DE9E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CB3124CF2F4EE28800D4DE9E /* Build configuration list for PBXNativeTarget "DevWisprTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CB3124D02F4EE28800D4DE9E /* Debug */,
+				CB3124D12F4EE28800D4DE9E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CB3124D22F4EE28800D4DE9E /* Build configuration list for PBXNativeTarget "DevWisprUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CB3124D32F4EE28800D4DE9E /* Debug */,
+				CB3124D42F4EE28800D4DE9E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CB3124D52F4F000000D4DE9E /* XCRemoteSwiftPackageReference "HotKey" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/soffes/HotKey";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
+		CBFBA00A2F70000000000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CB3124D62F4F000000D4DE9E /* HotKey */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB3124D52F4F000000D4DE9E /* XCRemoteSwiftPackageReference "HotKey" */;
+			productName = HotKey;
+		};
+		CBFBA00A2F70000000000002 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CBFBA00A2F70000000000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = CB3124A12F4EE28600D4DE9E /* Project object */;
+}

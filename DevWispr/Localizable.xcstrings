@@ -1,0 +1,844 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "\n\nAPI key URL:\n%@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\n\nURL de clave API:\n%@"
+          }
+        }
+      }
+    },
+    "%lld" : {
+
+    },
+    "^[%lld item](inflect: true)" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "^[%lld elemento](inflect: true)"
+          }
+        }
+      }
+    },
+    "Accessibility access recommended" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se recomienda acceso a Accesibilidad"
+          }
+        }
+      }
+    },
+    "Accessibility permission not granted. Will copy to clipboard only." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permiso de accesibilidad no concedido. Se copiará solo al portapapeles."
+          }
+        }
+      }
+    },
+    "API Configuration" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración de API"
+          }
+        }
+      }
+    },
+    "API Key" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clave API"
+          }
+        }
+      }
+    },
+    "Apply" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicar"
+          }
+        }
+      }
+    },
+    "Auto-paste" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auto-pegar"
+          }
+        }
+      }
+    },
+    "Auto-translate to English" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traducción automática al inglés"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar"
+          }
+        }
+      }
+    },
+    "Change" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambiar"
+          }
+        }
+      }
+    },
+    "Check for Updates" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar actualizaciones"
+          }
+        }
+      }
+    },
+    "Checking..." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscando…"
+          }
+        }
+      }
+    },
+    "Clear All" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar todo"
+          }
+        }
+      }
+    },
+    "Clear All History" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar todo el historial"
+          }
+        }
+      }
+    },
+    "Clear All History?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Borrar todo el historial?"
+          }
+        }
+      }
+    },
+    "Clipboard only" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo portapapeles"
+          }
+        }
+      }
+    },
+    "Configure DevWispr" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurar DevWispr"
+          }
+        }
+      }
+    },
+    "Configured" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurada"
+          }
+        }
+      }
+    },
+    "Copied" : {
+
+    },
+    "Copied to clipboard. Enable Accessibility to auto-paste." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiado al portapapeles. Habilita Accesibilidad para auto-pegar."
+          }
+        }
+      }
+    },
+    "Copy to clipboard" : {
+
+    },
+    "DevWispr" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DevWispr"
+          }
+        }
+      }
+    },
+    "DevWispr received a configuration request.\n\nSet API base URL to:\n%@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DevWispr recibió una solicitud de configuración.\n\nEstablecer URL base de API a:\n%@"
+          }
+        }
+      }
+    },
+    "Download" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descargar"
+          }
+        }
+      }
+    },
+    "Enter your API key to enable transcription." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingresa tu clave API para habilitar la transcripción."
+          }
+        }
+      }
+    },
+    "Error" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error"
+          }
+        }
+      }
+    },
+    "Failed to clear history." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al borrar el historial."
+          }
+        }
+      }
+    },
+    "Failed to load history." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al cargar el historial."
+          }
+        }
+      }
+    },
+    "Failed to load more history." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al cargar más historial."
+          }
+        }
+      }
+    },
+    "Failed to start recording: %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al iniciar grabación: %@"
+          }
+        }
+      }
+    },
+    "Failed to stop recording: %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al detener grabación: %@"
+          }
+        }
+      }
+    },
+    "Failed to update shortcut: %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al actualizar atajo: %@"
+          }
+        }
+      }
+    },
+    "Get API key" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obtener clave API"
+          }
+        }
+      }
+    },
+    "History" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historial"
+          }
+        }
+      }
+    },
+    "Hold down, release to stop" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantener presionado, soltar para detener"
+          }
+        }
+      }
+    },
+    "Hold to Talk" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantener para hablar"
+          }
+        }
+      }
+    },
+    "Hotkey registration failed: %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al registrar atajo: %@"
+          }
+        }
+      }
+    },
+    "Idle" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inactivo"
+          }
+        }
+      }
+    },
+    "Inserting" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insertando"
+          }
+        }
+      }
+    },
+    "Inserts via Accessibility" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inserta vía Accesibilidad"
+          }
+        }
+      }
+    },
+    "Load More" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cargar más"
+          }
+        }
+      }
+    },
+    "Microphone access required" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se requiere acceso al micrófono"
+          }
+        }
+      }
+    },
+    "Microphone not ready. The audio device may have changed — please try again." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Micrófono no listo. El dispositivo de audio puede haber cambiado — intenta de nuevo."
+          }
+        }
+      }
+    },
+    "Microphone permission is required." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se requiere permiso de micrófono."
+          }
+        }
+      }
+    },
+    "No history yet" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin historial aún"
+          }
+        }
+      }
+    },
+    "No recording URL" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin URL de grabación"
+          }
+        }
+      }
+    },
+    "No results found" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin resultados"
+          }
+        }
+      }
+    },
+    "No translation" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin traducción"
+          }
+        }
+      }
+    },
+    "Not configured" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No configurado"
+          }
+        }
+      }
+    },
+    "Not recording" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No está grabando"
+          }
+        }
+      }
+    },
+    "Not set — tap to set up" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No configurada — toca para configurar"
+          }
+        }
+      }
+    },
+    "Open at Login" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir al iniciar sesión"
+          }
+        }
+      }
+    },
+    "Open DevWispr" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir DevWispr"
+          }
+        }
+      }
+    },
+    "Open Settings" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Ajustes"
+          }
+        }
+      }
+    },
+    "OpenAI (default)" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OpenAI (predeterminado)"
+          }
+        }
+      }
+    },
+    "Paste failed: %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al pegar: %@"
+          }
+        }
+      }
+    },
+    "Processing failed: %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error en procesamiento: %@"
+          }
+        }
+      }
+    },
+    "Proxy URL" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL del proxy"
+          }
+        }
+      }
+    },
+    "Quit" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salir"
+          }
+        }
+      }
+    },
+    "Record" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grabar"
+          }
+        }
+      }
+    },
+    "Recording" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grabando"
+          }
+        }
+      }
+    },
+    "Reset" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restablecer"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar"
+          }
+        }
+      }
+    },
+    "Search transcriptions…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar transcripciones…"
+          }
+        }
+      }
+    },
+    "Set Up" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurar"
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes"
+          }
+        }
+      }
+    },
+    "Shortcuts" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajos"
+          }
+        }
+      }
+    },
+    "Source Code on GitHub" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Código fuente en GitHub"
+          }
+        }
+      }
+    },
+    "Start automatically after you log in" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciar automáticamente al iniciar sesión"
+          }
+        }
+      }
+    },
+    "Stop" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detener"
+          }
+        }
+      }
+    },
+    "Tap to start, tap again to stop" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocar para iniciar, tocar de nuevo para detener"
+          }
+        }
+      }
+    },
+    "This will permanently delete all transcription history." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esto eliminará permanentemente todo el historial de transcripciones."
+          }
+        }
+      }
+    },
+    "Toggle Recording" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alternar grabación"
+          }
+        }
+      }
+    },
+    "Transcribing" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transcribiendo"
+          }
+        }
+      }
+    },
+    "Transcriptions will appear here after recording." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las transcripciones aparecerán aquí después de grabar."
+          }
+        }
+      }
+    },
+    "Translates all output to English" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traduce todo al inglés"
+          }
+        }
+      }
+    },
+    "Translating" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traduciendo"
+          }
+        }
+      }
+    },
+    "Try a different search term." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prueba con un término de búsqueda diferente."
+          }
+        }
+      }
+    },
+    "Unable to create event source" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo crear la fuente de eventos"
+          }
+        }
+      }
+    },
+    "Unable to create key events" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudieron crear los eventos de teclado"
+          }
+        }
+      }
+    },
+    "Up to Date" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizado"
+          }
+        }
+      }
+    },
+    "Update Available" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualización disponible"
+          }
+        }
+      }
+    },
+    "Update Available: v%@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualización disponible: v%@"
+          }
+        }
+      }
+    },
+    "v%@" : {
+
+    }
+  },
+  "version" : "1.0"
+}

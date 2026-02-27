@@ -1,0 +1,49 @@
+# Xcode
+build/
+DerivedData/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Logs
+*.log
+
+# macOS
+.DS_Store
+
+# Obsidian
+.obsidian/
+
+# Archives
+*.xcarchive
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Environment / secrets
+.env
+.env.local
+*.env
+
+# Firebase config (contains project-specific IDs — forks should use their own)
+GoogleService-Info.plist
