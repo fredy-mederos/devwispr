@@ -7,6 +7,12 @@ import Foundation
 
 final class GitHubUpdateChecker: UpdateChecker {
 
+    #if DEBUG
+    private static let defaultThrottleInterval: TimeInterval = 60
+    #else
+    private static let defaultThrottleInterval: TimeInterval = 43_200
+    #endif
+
     private let owner: String
     private let repo: String
     private let session: URLSession
@@ -22,7 +28,7 @@ final class GitHubUpdateChecker: UpdateChecker {
         currentVersionProvider: @escaping () -> String? = {
             Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         },
-        throttleInterval: TimeInterval = 86_400,
+        throttleInterval: TimeInterval = defaultThrottleInterval,
         lastCheckDateProvider: @escaping () -> Date? = {
             UserDefaults.standard.object(forKey: "lastUpdateCheckDate") as? Date
         },
@@ -43,18 +49,30 @@ final class GitHubUpdateChecker: UpdateChecker {
         // Throttle: skip if checked recently
         if let lastCheck = lastCheckDateProvider(),
            Date().timeIntervalSince(lastCheck) < throttleInterval {
+            debugLog("Update check throttled — last check: \(lastCheck)")
             return nil
         }
 
-        guard let currentVersion = currentVersionProvider() else { return nil }
+        guard let currentVersion = currentVersionProvider() else {
+            debugLog("Update check skipped — could not read current version")
+            return nil
+        }
+        debugLog("Update check starting — current version: \(currentVersion)")
 
         let url = URL(string: "https://api.github.com/repos/\(owner)/\(repo)/releases/latest")!
         var request = URLRequest(url: url)
         request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
+        debugLog("Update check URL: \(url.absoluteString)")
 
         let (data, response) = try await session.data(for: request)
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 else {
+        guard let httpResponse = response as? HTTPURLResponse else {
+            debugLog("Update check failed — non-HTTP response")
+            return nil
+        }
+        debugLog("Update check response: HTTP \(httpResponse.statusCode)")
+
+        guard httpResponse.statusCode == 200 else {
+            debugLog("Update check failed — response body: \(String(data: data, encoding: .utf8) ?? "<binary>")")
             return nil
         }
 
@@ -64,6 +82,8 @@ final class GitHubUpdateChecker: UpdateChecker {
             : release.tagName
 
         onChecked(Date())
+
+        debugLog("Update check — local: \(currentVersion), remote: \(latestVersion), updateAvailable: \(UpdateInfo.isVersion(currentVersion, lessThan: latestVersion))")
 
         guard UpdateInfo.isVersion(currentVersion, lessThan: latestVersion) else {
             return nil

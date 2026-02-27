@@ -258,10 +258,13 @@ final class AppState: ObservableObject {
         updateCheckStatus = .checking
         do {
             let result = try await updateChecker.checkForUpdate()
-            availableUpdate = result
             if let result {
+                availableUpdate = result
                 updateCheckStatus = .available
                 analyticsService.logEvent(.updateAvailable(version: result.latestVersion))
+            } else if availableUpdate != nil {
+                // Throttled but we already know an update exists — keep showing it
+                updateCheckStatus = .available
             } else {
                 updateCheckStatus = .upToDate
                 scheduleUpdateCheckReset()

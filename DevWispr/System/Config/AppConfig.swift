@@ -8,8 +8,8 @@ import Foundation
 enum AppConfig {
     static let defaultOpenAIBaseURL = "https://api.openai.com/v1"
     static let apiKeyURL = "https://platform.openai.com/api-keys"
-    static let gitHubRepoOwner = "AugmentedMode"
-    static let gitHubRepoName = "DevWispr"
+    static let gitHubRepoOwner = "fredy-mederos"
+    static let gitHubRepoName = "devwispr"
     static let gitHubURL = "https://github.com/\(gitHubRepoOwner)/\(gitHubRepoName)"
 
     /// Minimum recording duration in milliseconds before audio is sent for

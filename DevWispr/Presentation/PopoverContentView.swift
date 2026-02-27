@@ -15,7 +15,6 @@ struct PopoverContentView: View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: WisprTheme.sectionSpacing) {
                 headerSection
-                updateBanner
                 statusCard
                 historyCard
                 permissionWarnings
@@ -80,45 +79,7 @@ struct PopoverContentView: View {
         }
     }
 
-    // MARK: - Update Banner
 
-    @ViewBuilder
-    private var updateBanner: some View {
-        if let update = appState.availableUpdate {
-            HStack(spacing: 8) {
-                Image(systemName: "arrow.down.circle.fill")
-                    .font(.system(size: 14))
-                    .foregroundStyle(WisprTheme.statusRecording)
-                    .frame(width: 22)
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Update Available: v\(update.latestVersion)")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundStyle(WisprTheme.textPrimary)
-                    if let notes = update.releaseNotes {
-                        Text(notes)
-                            .font(.system(size: 10))
-                            .foregroundStyle(WisprTheme.textTertiary)
-                            .lineLimit(2)
-                    }
-                }
-
-                Spacer()
-
-                Button("Download") {
-                    NSWorkspace.shared.open(update.releaseURL)
-                }
-                .font(.system(size: 11, weight: .medium))
-                .buttonStyle(.plain)
-                .foregroundStyle(WisprTheme.statusRecording)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 4)
-                .background(WisprTheme.statusRecording.opacity(0.15))
-                .clipShape(RoundedRectangle(cornerRadius: 6))
-            }
-            .wisprCard()
-        }
-    }
 
     // MARK: - Status / Recording Card
 
@@ -573,7 +534,11 @@ struct PopoverContentView: View {
                             .foregroundStyle(WisprTheme.textTertiary)
 
                         Button(updateButtonLabel) {
-                            Task { await appState.checkForUpdates() }
+                            if let update = appState.availableUpdate {
+                                NSWorkspace.shared.open(update.releaseURL)
+                            } else {
+                                Task { await appState.checkForUpdates() }
+                            }
                         }
                         .font(.system(size: 10))
                         .buttonStyle(.plain)
