@@ -1,8 +1,13 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Latest Release](https://img.shields.io/github/v/release/fredy-mederos/devwispr)](https://github.com/fredy-mederos/devwispr/releases/latest)
 
 # DevWispr
 
 A macOS menu-bar dictation app that transcribes speech to text using the OpenAI Whisper API and inserts it into the active application. Apple Silicon only.
+
+## Download
+
+Get the latest release from the [Releases page](https://github.com/fredy-mederos/devwispr/releases/latest). Download `DevWispr.dmg`, open it, and drag the app to your Applications folder.
 
 ## Features
 
