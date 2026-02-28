@@ -252,16 +252,21 @@ final class AppState: ObservableObject {
 
     // MARK: - Updates
 
-    func checkForUpdates() async {
+    func checkForUpdates(userInitiated: Bool = false) async {
         guard updateCheckStatus != .checking else { return }
-        analyticsService.logEvent(.updateCheckTriggered)
+        if userInitiated {
+            analyticsService.logEvent(.updateCheckTriggered)
+        }
         updateCheckStatus = .checking
         do {
             let result = try await updateChecker.checkForUpdate()
             if let result {
+                let isNewDiscovery = availableUpdate?.latestVersion != result.latestVersion
                 availableUpdate = result
                 updateCheckStatus = .available
-                analyticsService.logEvent(.updateAvailable(version: result.latestVersion))
+                if isNewDiscovery {
+                    analyticsService.logEvent(.updateAvailable(version: result.latestVersion))
+                }
             } else if availableUpdate != nil {
                 // Throttled but we already know an update exists — keep showing it
                 updateCheckStatus = .available
@@ -371,7 +376,10 @@ final class AppState: ObservableObject {
         if stored != holdModifierKey {
             holdModifierKey = stored
         }
-        shortcutsEnabled = settingsStore.shortcutsEnabled
+        let storedShortcutsEnabled = settingsStore.shortcutsEnabled
+        if storedShortcutsEnabled != shortcutsEnabled {
+            shortcutsEnabled = storedShortcutsEnabled
+        }
     }
 
     /// Sets launchAtLogin without triggering the LoginItemService side effect.

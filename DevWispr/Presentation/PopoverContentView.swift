@@ -537,7 +537,7 @@ struct PopoverContentView: View {
                             if let update = appState.availableUpdate {
                                 NSWorkspace.shared.open(update.releaseURL)
                             } else {
-                                Task { await appState.checkForUpdates() }
+                                Task { await appState.checkForUpdates(userInitiated: true) }
                             }
                         }
                         .font(.system(size: 10))

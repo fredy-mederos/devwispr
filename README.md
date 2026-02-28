@@ -1,9 +1,18 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Latest Release](https://img.shields.io/github/v/release/fredy-mederos/devwispr)](https://github.com/fredy-mederos/devwispr/releases/latest)
+<img src="screenshots/icon.png" width="80" alt="DevWispr icon" align="left" style="margin-right:16px" />
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)<br>[![Latest Release](https://img.shields.io/github/v/release/fredy-mederos/devwispr)](https://github.com/fredy-mederos/devwispr/releases/latest)
+
+<br clear="left"/>
 
 # DevWispr
 
 A macOS menu-bar dictation app that transcribes speech to text using the OpenAI Whisper API and inserts it into the active application. Apple Silicon only.
+
+<p align="center">
+  <img src="screenshots/screenshot-1.png" alt="DevWispr popover" width="260" />
+  &nbsp;&nbsp;
+  <img src="screenshots/screenshot-2.png" alt="DevWispr waveform pill" />
+</p>
 
 ## Download
 
@@ -92,3 +101,4 @@ If you discover a security vulnerability, please report it responsibly via [GitH
 ## License
 
 MIT — see [LICENSE](LICENSE).
+

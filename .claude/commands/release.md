@@ -48,12 +48,24 @@ git push origin vX.Y.Z
 
 ## Step 6: Create GitHub release
 
-Create a GitHub release with the DMG attached:
+Create a GitHub release with the DMG attached. Include the app icon in the release body before the auto-generated notes:
 
 ```bash
 gh release create vX.Y.Z build/DevWispr.dmg \
   --title "DevWispr vX.Y.Z" \
-  --generate-notes
+  --notes "$(cat <<'EOF'
+<p align="center">
+  <img src="https://raw.githubusercontent.com/fredy-mederos/devwispr/main/screenshots/icon.png" width="80" alt="DevWispr icon" />
+</p>
+
+---
+
+EOF
+)
+
+$(gh api repos/fredy-mederos/devwispr/releases/generate-notes -f tag_name=vX.Y.Z --jq .body)"
 ```
+
+This places the icon at the top of the release notes, followed by a separator and the auto-generated changelog.
 
 Show the release URL to the user when done.

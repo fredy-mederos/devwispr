@@ -149,6 +149,7 @@ final class RecordingCoordinator {
                     self.processingTask = nil
                 }
 
+                var didLogSpecificError = false
                 do {
                     let transcription = try await self.transcriptionService.transcribe(audioFileURL: audioURL)
                     try Task.checkCancellation()
@@ -184,6 +185,7 @@ final class RecordingCoordinator {
                             throw CancellationError()
                         } catch {
                             self.analyticsService.logEvent(.translationFailed(error: error.localizedDescription))
+                            didLogSpecificError = true
                             throw error
                         }
                     } else {
@@ -202,6 +204,7 @@ final class RecordingCoordinator {
                             self.analyticsService.logEvent(.textInserted(method: "paste"))
                         } catch {
                             self.analyticsService.logEvent(.textInsertionFailed(error: error.localizedDescription))
+                            didLogSpecificError = true
                             throw error
                         }
                         debugLog("Paste insertion complete.")
@@ -235,7 +238,9 @@ final class RecordingCoordinator {
                         appState.status = .idle
                     }
                 } catch {
-                    self.analyticsService.logEvent(.transcriptionFailed(error: error.localizedDescription))
+                    if !didLogSpecificError {
+                        self.analyticsService.logEvent(.transcriptionFailed(error: error.localizedDescription))
+                    }
                     appState.status = .error
                     appState.lastError = String(localized: "Processing failed: \(error.localizedDescription)")
                     debugLog("Processing failed: \(error)")
