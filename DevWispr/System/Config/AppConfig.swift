@@ -21,4 +21,11 @@ enum AppConfig {
     /// is shut down to release the microphone indicator. Set to 0 to keep
     /// the engine always-on (disables napping).
     static let engineIdleTimeoutSeconds: TimeInterval = 15
+
+    /// OpenAI Whisper currently rejects files larger than 25 MB.
+    static let whisperMaxUploadBytes: Int = 25 * 1024 * 1024
+    /// Target slightly under the max to leave multipart/header headroom.
+    static let whisperTargetUploadBytes: Int = 24 * 1024 * 1024
+    /// Separator used when merging multiple chunk transcriptions.
+    static let transcriptionChunkJoinSeparator: String = "\n\n"
 }

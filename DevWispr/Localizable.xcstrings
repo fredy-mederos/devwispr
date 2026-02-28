@@ -17,7 +17,18 @@
     "%lld" : {
 
     },
+    "%lld transcriptions • %lld failed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld transcriptions • %2$lld failed"
+          }
+        }
+      }
+    },
     "^[%lld item](inflect: true)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -77,6 +88,9 @@
           }
         }
       }
+    },
+    "Audio preprocessing failed: %@" : {
+
     },
     "Auto-paste" : {
       "localizations" : {
@@ -214,6 +228,9 @@
     "Copy to clipboard" : {
 
     },
+    "Delete" : {
+
+    },
     "DevWispr" : {
       "localizations" : {
         "es" : {
@@ -265,6 +282,15 @@
         }
       }
     },
+    "Failed %lld" : {
+
+    },
+    "Failed recording not found." : {
+
+    },
+    "Failed Recordings" : {
+
+    },
     "Failed to clear history." : {
       "localizations" : {
         "es" : {
@@ -274,6 +300,12 @@
           }
         }
       }
+    },
+    "Failed to delete failed recording." : {
+
+    },
+    "Failed to load failed recordings." : {
+
     },
     "Failed to load history." : {
       "localizations" : {
@@ -324,6 +356,9 @@
           }
         }
       }
+    },
+    "Failed transcription" : {
+
     },
     "Get API key" : {
       "localizations" : {
@@ -566,12 +601,28 @@
         }
       }
     },
+    "Pause" : {
+
+    },
+    "Play" : {
+
+    },
     "Processing failed: %@" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Error en procesamiento: %@"
+          }
+        }
+      }
+    },
+    "Processing failed: %@. Audio file kept at %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Processing failed: %1$@. Audio file kept at %2$@"
           }
         }
       }
@@ -616,6 +667,9 @@
         }
       }
     },
+    "Recording is too large to transcribe. Please record a shorter clip." : {
+
+    },
     "Reset" : {
       "localizations" : {
         "es" : {
@@ -625,6 +679,21 @@
           }
         }
       }
+    },
+    "Retries: %lld" : {
+
+    },
+    "Retry" : {
+
+    },
+    "Retry failed: %@" : {
+
+    },
+    "Retry failed. The recording is still available." : {
+
+    },
+    "Reveal in Finder" : {
+
     },
     "Save" : {
       "localizations" : {
@@ -717,7 +786,11 @@
         }
       }
     },
+    "This will permanently delete all transcription history and failed recordings." : {
+
+    },
     "This will permanently delete all transcription history." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -746,6 +819,9 @@
           }
         }
       }
+    },
+    "Transcriptions" : {
+
     },
     "Transcriptions will appear here after recording." : {
       "localizations" : {
@@ -806,6 +882,12 @@
           }
         }
       }
+    },
+    "Unable to play failed recording: %@" : {
+
+    },
+    "Unable to reveal failed recording: %@" : {
+
     },
     "Up to Date" : {
       "localizations" : {

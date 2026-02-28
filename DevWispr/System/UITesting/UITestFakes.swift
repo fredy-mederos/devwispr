@@ -65,6 +65,43 @@ final class UITestHistoryStore: HistoryStore {
     }
 }
 
+final class UITestFailedRecordingStore: FailedRecordingStore {
+    private var items: [FailedRecordingItem] = []
+
+    func addFromTemporaryFile(sourceURL: URL, lastError: String) throws -> FailedRecordingItem {
+        let item = FailedRecordingItem(
+            audioFileName: sourceURL.lastPathComponent,
+            fileSizeBytes: 0,
+            durationSeconds: 0,
+            lastError: lastError
+        )
+        items.insert(item, at: 0)
+        return item
+    }
+
+    func list() throws -> [FailedRecordingItem] { items }
+    func updateFailure(id: UUID, lastError: String) throws {}
+    func delete(id: UUID) throws { items.removeAll { $0.id == id } }
+    func deleteAll() throws { items.removeAll() }
+    func url(for id: UUID) throws -> URL { URL(fileURLWithPath: "/dev/null") }
+    func markResolved(id: UUID) throws { items.removeAll { $0.id == id } }
+}
+
+final class UITestAudioPlaybackService: AudioPlaybackService {
+    var isPlaying: Bool = false
+    var currentURL: URL?
+
+    func play(url: URL) throws {
+        currentURL = url
+        isPlaying = true
+    }
+
+    func stop() {
+        currentURL = nil
+        isPlaying = false
+    }
+}
+
 final class UITestUpdateChecker: UpdateChecker {
     func checkForUpdate() async throws -> UpdateInfo? { nil }
 }

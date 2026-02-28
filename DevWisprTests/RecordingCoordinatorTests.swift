@@ -16,6 +16,7 @@ private func makeSUT(
     translation: MockTranslationService = MockTranslationService(),
     textInserter: MockTextInserter = MockTextInserter(),
     historyStore: MockHistoryStore = MockHistoryStore(),
+    failedRecordingStore: MockFailedRecordingStore = MockFailedRecordingStore(),
     permissions: MockPermissionsManager = MockPermissionsManager(),
     apiKey: String? = "test-key"
 ) -> (RecordingCoordinator, AppState, MockAudioRecorder) {
@@ -28,6 +29,7 @@ private func makeSUT(
         translationService: translation,
         textInserter: textInserter,
         historyStore: historyStore,
+        failedRecordingStore: failedRecordingStore,
         permissionsManager: permissions,
         hotkeyManager: MockHotkeyManager(),
         settingsStore: settingsStore
@@ -69,7 +71,7 @@ struct RecordingCoordinatorTests {
     func startRecordingNoAPIKey() async {
         let (coordinator, appState, recorder) = makeSUT(apiKey: nil)
         await coordinator.startRecording()
-        #expect(appState.status == .idle)
+        #expect(appState.status == .error)
         #expect(recorder.startRecordingCallCount == 0)
     }
 
@@ -107,6 +109,7 @@ struct RecordingCoordinatorTests {
 
         await coordinator.startRecording()
         #expect(appState.status == .recording)
+        try await Task.sleep(nanoseconds: 1_100_000_000)
 
         coordinator.stopRecordingAndProcess(autoTranslateToEnglish: false)
 
@@ -124,15 +127,22 @@ struct RecordingCoordinatorTests {
         let recorder = MockAudioRecorder()
         let transcription = MockTranscriptionService()
         transcription.shouldThrow = URLError(.badServerResponse)
-        let (coordinator, appState, _) = makeSUT(audioRecorder: recorder, transcription: transcription)
+        let failedStore = MockFailedRecordingStore()
+        let (coordinator, appState, _) = makeSUT(
+            audioRecorder: recorder,
+            transcription: transcription,
+            failedRecordingStore: failedStore
+        )
 
         await coordinator.startRecording()
+        try await Task.sleep(nanoseconds: 1_100_000_000)
         coordinator.stopRecordingAndProcess(autoTranslateToEnglish: false)
 
         try await Task.sleep(nanoseconds: 500_000_000)
 
         #expect(appState.status == .error)
         #expect(appState.lastError != nil)
+        #expect(failedStore.addCallCount == 1)
     }
 
     @Test("stopRecordingAndProcess does nothing when not recording")
@@ -179,5 +189,95 @@ struct RecordingCoordinatorTests {
         try await Task.sleep(nanoseconds: 200_000_000)
 
         #expect(appState.status == .idle)
+    }
+
+    @Test("retryFailedRecording succeeds and removes failed item")
+    @MainActor
+    func retryFailedRecordingSuccess() async throws {
+        let recorder = MockAudioRecorder()
+        let transcription = MockTranscriptionService()
+        transcription.result = TranscriptionResult(text: "retried text", inputLanguage: .english)
+        let failedStore = MockFailedRecordingStore()
+        let failed = FailedRecordingItem(
+            audioFileName: "retry.wav",
+            fileSizeBytes: 1200,
+            durationSeconds: 3,
+            lastError: "network"
+        )
+        failedStore.items = [failed]
+        let (coordinator, appState, _) = makeSUT(
+            audioRecorder: recorder,
+            transcription: transcription,
+            failedRecordingStore: failedStore
+        )
+
+        let didSucceed = await coordinator.retryFailedRecording(id: failed.id)
+
+        #expect(didSucceed == true)
+        #expect(failedStore.markResolvedCallCount == 1)
+        #expect(appState.status == .idle)
+        #expect(appState.lastOutput == "retried text")
+    }
+
+    @Test("retryFailedRecording failure updates existing failed item")
+    @MainActor
+    func retryFailedRecordingFailure() async throws {
+        let recorder = MockAudioRecorder()
+        let transcription = MockTranscriptionService()
+        transcription.shouldThrow = URLError(.cannotConnectToHost)
+        let failedStore = MockFailedRecordingStore()
+        let failed = FailedRecordingItem(
+            audioFileName: "retry.wav",
+            fileSizeBytes: 1200,
+            durationSeconds: 3,
+            lastError: "old"
+        )
+        failedStore.items = [failed]
+        let (coordinator, appState, _) = makeSUT(
+            audioRecorder: recorder,
+            transcription: transcription,
+            failedRecordingStore: failedStore
+        )
+
+        let didSucceed = await coordinator.retryFailedRecording(id: failed.id)
+
+        #expect(didSucceed == false)
+        #expect(failedStore.updateFailureCallCount == 1)
+        #expect(failedStore.markResolvedCallCount == 0)
+        #expect(appState.status == .error)
+        #expect(appState.lastError != nil)
+    }
+
+    @Test("retryFailedRecording is ignored while processing is active")
+    @MainActor
+    func retryIgnoredWhileProcessing() async throws {
+        let recorder = MockAudioRecorder()
+        let transcription = MockTranscriptionService()
+        transcription.delayNanoseconds = 700_000_000
+        transcription.result = TranscriptionResult(text: "done", inputLanguage: .english)
+        let failedStore = MockFailedRecordingStore()
+        let failed = FailedRecordingItem(
+            audioFileName: "retry.wav",
+            fileSizeBytes: 1200,
+            durationSeconds: 3,
+            lastError: "old"
+        )
+        failedStore.items = [failed]
+
+        let (coordinator, _, _) = makeSUT(
+            audioRecorder: recorder,
+            transcription: transcription,
+            failedRecordingStore: failedStore
+        )
+
+        await coordinator.startRecording()
+        try await Task.sleep(nanoseconds: 1_100_000_000)
+        coordinator.stopRecordingAndProcess(autoTranslateToEnglish: false)
+
+        let didSucceed = await coordinator.retryFailedRecording(id: failed.id)
+
+        #expect(didSucceed == false)
+        #expect(failedStore.markResolvedCallCount == 0)
+        #expect(failedStore.updateFailureCallCount == 0)
     }
 }

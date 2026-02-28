@@ -22,6 +22,7 @@ final class AppState: ObservableObject {
     @Published private(set) var isAudioReady: Bool = false
     @Published var historyItems: [TranscriptItem] = []
     @Published var historyCount: Int = 0
+    @Published var failedHistoryCount: Int = 0
     @Published var availableUpdate: UpdateInfo?
     @Published var updateCheckStatus: UpdateCheckStatus = .idle
     @Published var showMicrophoneSettings: Bool = false
@@ -95,6 +96,8 @@ final class AppState: ObservableObject {
 
     private let audioRecorder: AudioRecorder
     private let historyStore: HistoryStore
+    private let failedRecordingStore: FailedRecordingStore
+    private let audioPlaybackService: AudioPlaybackService
     private let permissionsManager: PermissionsManager
     private let hotkeyManager: HotkeyManager
     private let settingsStore: SettingsStore
@@ -110,6 +113,8 @@ final class AppState: ObservableObject {
     init(container: AppContainer) {
         self.audioRecorder = container.audioRecorder
         self.historyStore = container.historyStore
+        self.failedRecordingStore = container.failedRecordingStore
+        self.audioPlaybackService = container.audioPlaybackService
         self.permissionsManager = container.permissionsManager
         self.hotkeyManager = container.hotkeyManager
         self.settingsStore = container.settingsStore
@@ -448,10 +453,14 @@ final class AppState: ObservableObject {
 
     func clearHistory() {
         do {
+            audioPlaybackService.stop()
             try historyStore.clearAll()
+            try failedRecordingStore.deleteAll()
             historyItems = []
             historyCount = 0
+            failedHistoryCount = 0
             analyticsService.logEvent(.historyCleared)
+            analyticsService.logEvent(.failedRecordingsCleared)
         } catch {
             lastError = String(localized: "Failed to clear history.")
             status = .error

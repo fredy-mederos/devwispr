@@ -12,6 +12,7 @@ final class AppContainer {
     let translationUseCase: TranslationUseCase
     let textInserter: TextInserter
     let historyStore: HistoryStore
+    let failedRecordingStore: FailedRecordingStore
     let permissionsManager: PermissionsManager
     let hotkeyManager: HotkeyManager
     let settingsStore: SettingsStore
@@ -20,6 +21,7 @@ final class AppContainer {
     let apiKeyManager: APIKeyManager
     let historyWindowController: HistoryWindowController
     let soundFeedbackService: SoundFeedbackService
+    let audioPlaybackService: AudioPlaybackService
     let updateChecker: UpdateChecker
     let analyticsService: AnalyticsService
 
@@ -29,10 +31,12 @@ final class AppContainer {
         translationService: TranslationService? = nil,
         textInserter: TextInserter? = nil,
         historyStore: HistoryStore? = nil,
+        failedRecordingStore: FailedRecordingStore? = nil,
         permissionsManager: PermissionsManager? = nil,
         hotkeyManager: HotkeyManager? = nil,
         settingsStore: SettingsStore? = nil,
         languageDetector: LanguageDetector? = nil,
+        audioPlaybackService: AudioPlaybackService? = nil,
         updateChecker: UpdateChecker? = nil,
         analyticsService: AnalyticsService? = nil
     ) {
@@ -87,8 +91,10 @@ final class AppContainer {
 
         self.textInserter = textInserter ?? ClipboardTextInserter()
         self.historyStore = historyStore ?? FileBackedHistoryStore()
+        self.failedRecordingStore = failedRecordingStore ?? FileBackedFailedRecordingStore()
         self.permissionsManager = permissionsManager ?? DefaultPermissionsManager()
         self.hotkeyManager = hotkeyManager ?? DefaultHotkeyManager()
+        self.audioPlaybackService = audioPlaybackService ?? AVAudioPlaybackService()
 
         self.analyticsService = analyticsService ?? FirebaseAnalyticsService()
 
@@ -102,12 +108,19 @@ final class AppContainer {
             translationUseCase: self.translationUseCase,
             textInserter: self.textInserter,
             historyStore: self.historyStore,
+            failedRecordingStore: self.failedRecordingStore,
             permissionsManager: self.permissionsManager,
             analyticsService: self.analyticsService
         )
 
         self.soundFeedbackService = DefaultSoundFeedbackService()
         self.updateChecker = updateChecker ?? GitHubUpdateChecker()
-        self.historyWindowController = HistoryWindowController(historyStore: self.historyStore)
+        self.historyWindowController = HistoryWindowController(
+            historyStore: self.historyStore,
+            failedRecordingStore: self.failedRecordingStore,
+            recordingCoordinator: self.recordingCoordinator,
+            audioPlaybackService: self.audioPlaybackService,
+            analyticsService: self.analyticsService
+        )
     }
 }

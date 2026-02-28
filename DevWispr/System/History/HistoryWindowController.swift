@@ -10,11 +10,34 @@ import SwiftUI
 final class HistoryWindowController {
     private var window: NSWindow?
     private let historyStore: HistoryStore
+    private let failedRecordingStore: FailedRecordingStore
+    private let recordingCoordinator: RecordingCoordinator
+    private let audioPlaybackService: AudioPlaybackService
+    private let analyticsService: AnalyticsService
     // Retained so search state and loaded pages survive window close/reopen.
-    private lazy var viewModel = HistoryWindowViewModel(historyStore: historyStore)
+    private lazy var viewModel = HistoryWindowViewModel(
+        historyStore: historyStore,
+        failedRecordingStore: failedRecordingStore,
+        retryFailedAction: { [weak self] id in
+            guard let self else { return false }
+            return await self.recordingCoordinator.retryFailedRecording(id: id)
+        },
+        audioPlaybackService: audioPlaybackService,
+        analyticsService: analyticsService
+    )
 
-    init(historyStore: HistoryStore) {
+    init(
+        historyStore: HistoryStore,
+        failedRecordingStore: FailedRecordingStore,
+        recordingCoordinator: RecordingCoordinator,
+        audioPlaybackService: AudioPlaybackService,
+        analyticsService: AnalyticsService
+    ) {
         self.historyStore = historyStore
+        self.failedRecordingStore = failedRecordingStore
+        self.recordingCoordinator = recordingCoordinator
+        self.audioPlaybackService = audioPlaybackService
+        self.analyticsService = analyticsService
     }
 
     func showWindow() {

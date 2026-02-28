@@ -15,6 +15,14 @@ enum AnalyticsEvent {
     case recordingDiscarded(durationMs: Int)
     case transcriptionSucceeded(inputLanguage: String)
     case transcriptionFailed(error: String)
+    case failedRecordingSaved
+    case failedRecordingRetryStarted
+    case failedRecordingRetrySucceeded
+    case failedRecordingRetryFailed
+    case failedRecordingPlaybackStarted
+    case failedRecordingPlaybackStopped
+    case failedRecordingDeleted
+    case failedRecordingsCleared
     case translationTriggered(from: String, to: String)
     case translationSkipped
     case translationFailed(error: String)
@@ -46,6 +54,14 @@ enum AnalyticsEvent {
         case .recordingDiscarded: return "recording_discarded"
         case .transcriptionSucceeded: return "transcription_succeeded"
         case .transcriptionFailed: return "transcription_failed"
+        case .failedRecordingSaved: return "failed_recording_saved"
+        case .failedRecordingRetryStarted: return "failed_recording_retry_started"
+        case .failedRecordingRetrySucceeded: return "failed_recording_retry_succeeded"
+        case .failedRecordingRetryFailed: return "failed_recording_retry_failed"
+        case .failedRecordingPlaybackStarted: return "failed_recording_playback_started"
+        case .failedRecordingPlaybackStopped: return "failed_recording_playback_stopped"
+        case .failedRecordingDeleted: return "failed_recording_deleted"
+        case .failedRecordingsCleared: return "failed_recordings_cleared"
         case .translationTriggered: return "translation_triggered"
         case .translationSkipped: return "translation_skipped"
         case .translationFailed: return "translation_failed"
@@ -81,6 +97,22 @@ enum AnalyticsEvent {
             return ["input_language": inputLanguage]
         case .transcriptionFailed(let error):
             return ["error": error]
+        case .failedRecordingSaved:
+            return [:]
+        case .failedRecordingRetryStarted:
+            return [:]
+        case .failedRecordingRetrySucceeded:
+            return [:]
+        case .failedRecordingRetryFailed:
+            return [:]
+        case .failedRecordingPlaybackStarted:
+            return [:]
+        case .failedRecordingPlaybackStopped:
+            return [:]
+        case .failedRecordingDeleted:
+            return [:]
+        case .failedRecordingsCleared:
+            return [:]
         case .translationTriggered(let from, let to):
             return ["from_language": from, "to_language": to]
         case .translationSkipped:

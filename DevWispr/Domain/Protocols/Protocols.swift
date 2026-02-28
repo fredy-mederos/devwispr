@@ -39,6 +39,16 @@ protocol HistoryStore {
     func clearAll() throws
 }
 
+protocol FailedRecordingStore {
+    func addFromTemporaryFile(sourceURL: URL, lastError: String) throws -> FailedRecordingItem
+    func list() throws -> [FailedRecordingItem]
+    func updateFailure(id: UUID, lastError: String) throws
+    func delete(id: UUID) throws
+    func deleteAll() throws
+    func url(for id: UUID) throws -> URL
+    func markResolved(id: UUID) throws
+}
+
 extension HistoryStore {
     func paginate(_ items: [TranscriptItem], page: Int, pageSize: Int) -> [TranscriptItem] {
         guard pageSize > 0 else { return [] }
@@ -106,6 +116,13 @@ protocol TranslationUseCase {
 
 protocol SoundFeedbackService {
     func playRecordingStarted()
+}
+
+protocol AudioPlaybackService {
+    func play(url: URL) throws
+    func stop()
+    var isPlaying: Bool { get }
+    var currentURL: URL? { get }
 }
 
 protocol UpdateChecker {

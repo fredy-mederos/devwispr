@@ -13,13 +13,28 @@ final class RecordingCoordinator {
     private let translationUseCase: TranslationUseCase
     private let textInserter: TextInserter
     private let historyStore: HistoryStore
+    private let failedRecordingStore: FailedRecordingStore
     private let permissionsManager: PermissionsManager
     private let analyticsService: AnalyticsService
     private weak var appState: AppState?
-    private var processingTask: Task<Void, Never>?
+    private var processingTask: Task<Bool, Never>?
     private enum RecordingMode { case hold, toggle }
     private var recordingMode: RecordingMode?
     private var recordingStartTime: Date?
+
+    private enum PipelineFailure: Error {
+        case transcription(Error)
+        case translation(Error)
+        case insertion(Error)
+        case persistence(Error)
+
+        var underlyingError: Error {
+            switch self {
+            case .transcription(let error), .translation(let error), .insertion(let error), .persistence(let error):
+                return error
+            }
+        }
+    }
 
     init(
         audioRecorder: AudioRecorder,
@@ -27,6 +42,7 @@ final class RecordingCoordinator {
         translationUseCase: TranslationUseCase,
         textInserter: TextInserter,
         historyStore: HistoryStore,
+        failedRecordingStore: FailedRecordingStore,
         permissionsManager: PermissionsManager,
         analyticsService: AnalyticsService
     ) {
@@ -35,6 +51,7 @@ final class RecordingCoordinator {
         self.translationUseCase = translationUseCase
         self.textInserter = textInserter
         self.historyStore = historyStore
+        self.failedRecordingStore = failedRecordingStore
         self.permissionsManager = permissionsManager
         self.analyticsService = analyticsService
     }
@@ -131,6 +148,11 @@ final class RecordingCoordinator {
             return
         }
 
+        guard processingTask == nil else {
+            debugLog("stopRecordingAndProcess ignored: processing already in progress")
+            return
+        }
+
         let capturedMode = recordingMode == .hold ? "hold" : "toggle"
         let capturedStartTime = recordingStartTime
 
@@ -143,107 +165,47 @@ final class RecordingCoordinator {
             debugLog("Stopped recording. Audio URL: \(audioURL.lastPathComponent), size: \(fileSize) bytes (\(fileSize / 1024) KB)")
 
             processingTask = Task { [weak self] in
-                guard let self, let appState = self.appState else { return }
+                guard let self, let appState = self.appState else { return false }
+                var shouldDeleteAudioFile = true
                 defer {
-                    try? FileManager.default.removeItem(at: audioURL)
+                    if shouldDeleteAudioFile {
+                        try? FileManager.default.removeItem(at: audioURL)
+                    }
                     self.processingTask = nil
                 }
 
-                var didLogSpecificError = false
                 do {
-                    let transcription = try await self.transcriptionService.transcribe(audioFileURL: audioURL)
-                    try Task.checkCancellation()
-                    debugLog("Transcription complete. Input language: \(transcription.inputLanguage.code)")
-                    debugLog("Transcription text (first 120): \(String(transcription.text.prefix(120)))")
-                    self.analyticsService.logEvent(.transcriptionSucceeded(inputLanguage: transcription.inputLanguage.code))
-
-                    let finalText: String
-                    let outputLanguage: Language
-
-                    if autoTranslateToEnglish {
-                        appState.status = .translating
-                        do {
-                            let translation = try await self.translationUseCase.translateIfNeeded(
-                                text: transcription.text,
-                                inputLanguage: transcription.inputLanguage,
-                                outputLanguage: .english
-                            )
-                            try Task.checkCancellation()
-                            debugLog("Translation complete. Output language: \(translation.outputLanguage.code)")
-                            debugLog("Translation text (first 120): \(String(translation.text.prefix(120)))")
-                            if transcription.inputLanguage == .english {
-                                self.analyticsService.logEvent(.translationSkipped)
-                            } else {
-                                self.analyticsService.logEvent(.translationTriggered(
-                                    from: transcription.inputLanguage.code,
-                                    to: translation.outputLanguage.code
-                                ))
-                            }
-                            finalText = translation.text
-                            outputLanguage = .english
-                        } catch is CancellationError {
-                            throw CancellationError()
-                        } catch {
-                            self.analyticsService.logEvent(.translationFailed(error: error.localizedDescription))
-                            didLogSpecificError = true
-                            throw error
-                        }
-                    } else {
-                        debugLog("Auto-translate disabled, skipping translation.")
-                        self.analyticsService.logEvent(.translationSkipped)
-                        finalText = transcription.text
-                        outputLanguage = transcription.inputLanguage
-                    }
-
-                    appState.status = .inserting
-                    let preferClipboard = appState.useClipboardOnly
-                    if !preferClipboard && self.permissionsManager.hasAccessibilityAccess() {
-                        debugLog("Accessibility granted. Inserting via paste.")
-                        do {
-                            try await self.textInserter.insertText(finalText)
-                            self.analyticsService.logEvent(.textInserted(method: "paste"))
-                        } catch {
-                            self.analyticsService.logEvent(.textInsertionFailed(error: error.localizedDescription))
-                            didLogSpecificError = true
-                            throw error
-                        }
-                        debugLog("Paste insertion complete.")
-                    } else {
-                        debugLog("Copying to clipboard only (preferClipboard=\(preferClipboard)).")
-                        NSPasteboard.general.clearContents()
-                        NSPasteboard.general.setString(finalText, forType: .string)
-                        self.analyticsService.logEvent(.textInserted(method: "clipboard"))
-                        if !preferClipboard {
-                            appState.lastError = String(localized: "Copied to clipboard. Enable Accessibility to auto-paste.")
-                        }
-                        debugLog("Clipboard copy complete.")
-                    }
-                    try Task.checkCancellation()
-
-                    try self.persistHistory(
-                        text: finalText,
-                        input: transcription.inputLanguage,
-                        output: outputLanguage
-                    )
-                    debugLog("History persisted.")
-                    appState.lastOutput = finalText
-                    appState.status = .idle
-                    appState.lastError = nil
+                    try await self.runProcessingPipeline(audioURL: audioURL, autoTranslateToEnglish: autoTranslateToEnglish)
 
                     let totalDurationMs = capturedStartTime.map { Int(Date().timeIntervalSince($0) * 1000) } ?? 0
                     self.analyticsService.logEvent(.recordingCompleted(durationMs: totalDurationMs, mode: capturedMode))
+                    return true
                 } catch is CancellationError {
                     debugLog("Processing cancelled.")
                     if appState.status != .recording {
                         appState.status = .idle
                     }
+                    return false
                 } catch {
-                    if !didLogSpecificError {
-                        self.analyticsService.logEvent(.transcriptionFailed(error: error.localizedDescription))
+                    self.logPipelineFailureIfNeeded(error)
+                    let errorMessage = self.userFacingErrorMessage(from: error)
+
+                    do {
+                        _ = try self.failedRecordingStore.addFromTemporaryFile(sourceURL: audioURL, lastError: errorMessage)
+                        self.analyticsService.logEvent(.failedRecordingSaved)
+                    } catch {
+                        shouldDeleteAudioFile = false
+                        debugLog("Failed to save failed recording: \(error)")
                     }
+
                     appState.status = .error
-                    appState.lastError = String(localized: "Processing failed: \(error.localizedDescription)")
+                    if shouldDeleteAudioFile {
+                        appState.lastError = String(localized: "Processing failed: \(errorMessage)")
+                    } else {
+                        appState.lastError = String(localized: "Processing failed: \(errorMessage). Audio file kept at \(audioURL.path)")
+                    }
                     debugLog("Processing failed: \(error)")
+                    return false
                 }
             }
         } catch {
@@ -252,6 +214,51 @@ final class RecordingCoordinator {
             appState.lastError = String(localized: "Failed to stop recording: \(error.localizedDescription)")
             debugLog("Failed to stop recording: \(error)")
         }
+    }
+
+    func retryFailedRecording(id: UUID) async -> Bool {
+        guard processingTask == nil else {
+            debugLog("retryFailedRecording ignored: processing already in progress")
+            return false
+        }
+        guard !audioRecorder.isRecording else {
+            debugLog("retryFailedRecording ignored: recording in progress")
+            return false
+        }
+        guard let appState else { return false }
+
+        analyticsService.logEvent(.failedRecordingRetryStarted)
+
+        let task = Task { [weak self] in
+            guard let self, let appState = self.appState else { return false }
+            defer { self.processingTask = nil }
+
+            do {
+                let audioURL = try self.failedRecordingStore.url(for: id)
+                try await self.runProcessingPipeline(audioURL: audioURL, autoTranslateToEnglish: appState.autoTranslateToEnglish)
+                try self.failedRecordingStore.markResolved(id: id)
+                self.analyticsService.logEvent(.failedRecordingRetrySucceeded)
+                return true
+            } catch is CancellationError {
+                if appState.status != .recording {
+                    appState.status = .idle
+                }
+                return false
+            } catch {
+                self.logPipelineFailureIfNeeded(error)
+                let errorMessage = self.userFacingErrorMessage(from: error)
+                try? self.failedRecordingStore.updateFailure(id: id, lastError: errorMessage)
+                self.analyticsService.logEvent(.failedRecordingRetryFailed)
+
+                appState.status = .error
+                appState.lastError = String(localized: "Retry failed: \(errorMessage)")
+                debugLog("Retry failed for failed recording \(id): \(error)")
+                return false
+            }
+        }
+
+        processingTask = task
+        return await task.value
     }
 
     // MARK: - Cancellation
@@ -283,6 +290,7 @@ final class RecordingCoordinator {
         do {
             appState.historyItems = try historyStore.list(page: 0, pageSize: 1)
             appState.historyCount = try historyStore.count(query: "")
+            appState.failedHistoryCount = try failedRecordingStore.list().count
         } catch {
             appState.lastError = String(localized: "Failed to load history.")
             appState.status = .error
@@ -300,5 +308,120 @@ final class RecordingCoordinator {
         )
         try historyStore.add(item)
         loadHistory()
+    }
+
+    private func runProcessingPipeline(audioURL: URL, autoTranslateToEnglish: Bool) async throws {
+        guard let appState else { return }
+
+        appState.status = .transcribing
+
+        let transcription: TranscriptionResult
+        do {
+            transcription = try await transcriptionService.transcribe(audioFileURL: audioURL)
+        } catch {
+            throw PipelineFailure.transcription(error)
+        }
+        try Task.checkCancellation()
+
+        debugLog("Transcription complete. Input language: \(transcription.inputLanguage.code)")
+        debugLog("Transcription text (first 120): \(String(transcription.text.prefix(120)))")
+        analyticsService.logEvent(.transcriptionSucceeded(inputLanguage: transcription.inputLanguage.code))
+
+        let finalText: String
+        let outputLanguage: Language
+
+        if autoTranslateToEnglish {
+            appState.status = .translating
+            do {
+                let translation = try await translationUseCase.translateIfNeeded(
+                    text: transcription.text,
+                    inputLanguage: transcription.inputLanguage,
+                    outputLanguage: .english
+                )
+                try Task.checkCancellation()
+                debugLog("Translation complete. Output language: \(translation.outputLanguage.code)")
+                debugLog("Translation text (first 120): \(String(translation.text.prefix(120)))")
+                if transcription.inputLanguage == .english {
+                    analyticsService.logEvent(.translationSkipped)
+                } else {
+                    analyticsService.logEvent(.translationTriggered(
+                        from: transcription.inputLanguage.code,
+                        to: translation.outputLanguage.code
+                    ))
+                }
+                finalText = translation.text
+                outputLanguage = .english
+            } catch is CancellationError {
+                throw CancellationError()
+            } catch {
+                analyticsService.logEvent(.translationFailed(error: error.localizedDescription))
+                throw PipelineFailure.translation(error)
+            }
+        } else {
+            debugLog("Auto-translate disabled, skipping translation.")
+            analyticsService.logEvent(.translationSkipped)
+            finalText = transcription.text
+            outputLanguage = transcription.inputLanguage
+        }
+
+        appState.status = .inserting
+        let preferClipboard = appState.useClipboardOnly
+        if !preferClipboard && permissionsManager.hasAccessibilityAccess() {
+            debugLog("Accessibility granted. Inserting via paste.")
+            do {
+                try await textInserter.insertText(finalText)
+                analyticsService.logEvent(.textInserted(method: "paste"))
+            } catch {
+                analyticsService.logEvent(.textInsertionFailed(error: error.localizedDescription))
+                throw PipelineFailure.insertion(error)
+            }
+            debugLog("Paste insertion complete.")
+        } else {
+            debugLog("Copying to clipboard only (preferClipboard=\(preferClipboard)).")
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(finalText, forType: .string)
+            analyticsService.logEvent(.textInserted(method: "clipboard"))
+            if !preferClipboard {
+                appState.lastError = String(localized: "Copied to clipboard. Enable Accessibility to auto-paste.")
+            }
+            debugLog("Clipboard copy complete.")
+        }
+        try Task.checkCancellation()
+
+        do {
+            try persistHistory(
+                text: finalText,
+                input: transcription.inputLanguage,
+                output: outputLanguage
+            )
+        } catch {
+            throw PipelineFailure.persistence(error)
+        }
+
+        debugLog("History persisted.")
+        appState.lastOutput = finalText
+        appState.status = .idle
+        appState.lastError = nil
+    }
+
+    private func userFacingErrorMessage(from error: Error) -> String {
+        switch error {
+        case let pipelineFailure as PipelineFailure:
+            return pipelineFailure.underlyingError.localizedDescription
+        default:
+            return error.localizedDescription
+        }
+    }
+
+    private func logPipelineFailureIfNeeded(_ error: Error) {
+        if let pipelineFailure = error as? PipelineFailure {
+            switch pipelineFailure {
+            case .translation, .insertion:
+                return
+            case .transcription, .persistence:
+                break
+            }
+        }
+        analyticsService.logEvent(.transcriptionFailed(error: userFacingErrorMessage(from: error)))
     }
 }

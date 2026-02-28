@@ -326,9 +326,18 @@ final class AVAudioRecorderService: NSObject, AudioRecorder {
         let format = input.outputFormat(forBus: 0)
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString)
-            .appendingPathExtension("wav")
+            .appendingPathExtension("m4a")
 
-        outputFile = try AVAudioFile(forWriting: url, settings: format.settings)
+        let channels = Int(format.channelCount)
+        let recordingSettings: [String: Any] = [
+            AVFormatIDKey: kAudioFormatMPEG4AAC,
+            AVSampleRateKey: format.sampleRate,
+            AVNumberOfChannelsKey: channels,
+            AVEncoderBitRateKey: 64_000,
+            AVEncoderAudioQualityKey: AVAudioQuality.medium.rawValue,
+        ]
+
+        outputFile = try AVAudioFile(forWriting: url, settings: recordingSettings)
         recordingURL = url
         lock.lock()
         isRecording = true

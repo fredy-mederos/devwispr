@@ -149,6 +149,15 @@ struct PopoverContentView: View {
                                 .padding(.vertical, 1)
                                 .background(WisprTheme.historyAccent.opacity(0.15))
                                 .clipShape(Capsule())
+                            if appState.failedHistoryCount > 0 {
+                                Text("Failed \(appState.failedHistoryCount)")
+                                    .font(.system(size: 10, weight: .medium))
+                                    .foregroundStyle(WisprTheme.statusError)
+                                    .padding(.horizontal, 5)
+                                    .padding(.vertical, 1)
+                                    .background(WisprTheme.statusError.opacity(0.15))
+                                    .clipShape(Capsule())
+                            }
                         }
                         Text(appState.historyItems[0].text)
                             .font(.system(size: 10))
@@ -739,7 +748,8 @@ private func makeState(
     holdModifier: HoldModifierKey = .control,
     clipboardOnly: Bool = false,
     launchAtLogin: Bool = false,
-    historyItems: [TranscriptItem] = TranscriptItem.previewItems
+    historyItems: [TranscriptItem] = TranscriptItem.previewItems,
+    failedHistoryCount: Int = 0
 ) -> AppState {
     let s = AppState(container: AppContainer())
     s.status = status
@@ -753,6 +763,8 @@ private func makeState(
     s.useClipboardOnly = clipboardOnly
     s.syncLaunchAtLogin(launchAtLogin)
     s.historyItems = historyItems
+    s.historyCount = historyItems.count
+    s.failedHistoryCount = failedHistoryCount
     return s
 }
 

@@ -88,9 +88,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             translationService: FakeTranslationService(),
             textInserter: UITestTextInserter(),
             historyStore: UITestHistoryStore(),
+            failedRecordingStore: UITestFailedRecordingStore(),
             permissionsManager: UITestPermissionsManager(),
             hotkeyManager: UITestHotkeyManager(),
             settingsStore: settingsStore,
+            audioPlaybackService: UITestAudioPlaybackService(),
             updateChecker: UITestUpdateChecker()
         )
 
