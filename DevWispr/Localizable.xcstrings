@@ -282,6 +282,16 @@
         }
       }
     },
+    "Error initializing recording. Please restart DevWispr and try again." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al inicializar la grabación. Reinicia DevWispr e inténtalo de nuevo."
+          }
+        }
+      }
+    },
     "Failed %lld" : {
 
     },

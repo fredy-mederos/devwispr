@@ -18,6 +18,7 @@ private func makeSUT(
     historyStore: MockHistoryStore = MockHistoryStore(),
     failedRecordingStore: MockFailedRecordingStore = MockFailedRecordingStore(),
     permissions: MockPermissionsManager = MockPermissionsManager(),
+    analytics: AnalyticsService = MockAnalyticsService(),
     apiKey: String? = "test-key"
 ) -> (RecordingCoordinator, AppState, MockAudioRecorder) {
     let settingsStore = MockSettingsStore()
@@ -32,7 +33,8 @@ private func makeSUT(
         failedRecordingStore: failedRecordingStore,
         permissionsManager: permissions,
         hotkeyManager: MockHotkeyManager(),
-        settingsStore: settingsStore
+        settingsStore: settingsStore,
+        analyticsService: analytics
     )
 
     let appState = AppState(container: container)
@@ -95,6 +97,57 @@ struct RecordingCoordinatorTests {
         await coordinator.startRecording()
         #expect(appState.status == .error)
         #expect(appState.lastError != nil)
+    }
+
+    @Test("startRecording shows restart guidance for CoreAudio format error -10868")
+    @MainActor
+    func startRecordingCoreAudio10868ShowsFriendlyMessage() async {
+        let recorder = MockAudioRecorder()
+        recorder.shouldThrow = NSError(
+            domain: "com.apple.coreaudio.avaudio",
+            code: -10868,
+            userInfo: [NSLocalizedDescriptionKey: "The operation couldn’t be completed."]
+        )
+        let (coordinator, appState, _) = makeSUT(audioRecorder: recorder)
+
+        await coordinator.startRecording()
+
+        #expect(appState.status == .error)
+        #expect(appState.lastError == "Error initializing recording. Please restart DevWispr and try again.")
+    }
+
+    @Test("startRecording logs audio diagnostics for CoreAudio format error -10868")
+    @MainActor
+    func startRecordingCoreAudio10868LogsAudioDiagnostics() async {
+        let recorder = MockAudioRecorder()
+        recorder.diagnostics = AudioInputDiagnostics(deviceName: "Test BT Headset", sampleRateHz: 16_000, channelCount: 1)
+        recorder.shouldThrow = NSError(
+            domain: "com.apple.coreaudio.avaudio",
+            code: -10868,
+            userInfo: [NSLocalizedDescriptionKey: "The operation couldn’t be completed."]
+        )
+        let analytics = MockAnalyticsService()
+        let (coordinator, _, _) = makeSUT(audioRecorder: recorder, analytics: analytics)
+
+        await coordinator.startRecording()
+
+        let event = analytics.loggedEvents.first { $0.name == "recording_start_coreaudio_format_error" }
+        #expect(event != nil)
+        if case let .some(.recordingStartCoreAudioFormatError(
+            errorCode,
+            errorDomain,
+            inputDevice,
+            inputSampleRateHz,
+            inputChannelCount
+        )) = event {
+            #expect(errorCode == -10868)
+            #expect(errorDomain == "com.apple.coreaudio.avaudio")
+            #expect(inputDevice == "Test BT Headset")
+            #expect(inputSampleRateHz == 16_000)
+            #expect(inputChannelCount == 1)
+        } else {
+            Issue.record("Expected recording_start_coreaudio_format_error event")
+        }
     }
 
     // MARK: stopRecordingAndProcess

@@ -16,6 +16,7 @@ final class MockAudioRecorder: AudioRecorder {
     var startRecordingCallCount = 0
     var stopRecordingCallCount = 0
     var recordingURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("mock.wav")
+    var diagnostics = AudioInputDiagnostics(deviceName: "mock-input", sampleRateHz: 44_100, channelCount: 1)
 
     let audioLevelSubject = PassthroughSubject<Double, Never>()
     let recordingReadySubject = PassthroughSubject<Void, Never>()
@@ -24,6 +25,8 @@ final class MockAudioRecorder: AudioRecorder {
     var audioLevelPublisher: AnyPublisher<Double, Never> { audioLevelSubject.eraseToAnyPublisher() }
     var recordingReadyPublisher: AnyPublisher<Void, Never> { recordingReadySubject.eraseToAnyPublisher() }
     var recordingStoppedPublisher: AnyPublisher<Void, Never> { recordingStoppedSubject.eraseToAnyPublisher() }
+
+    func currentInputDiagnostics() -> AudioInputDiagnostics { diagnostics }
 
     func startEngine() throws {
         startEngineCallCount += 1

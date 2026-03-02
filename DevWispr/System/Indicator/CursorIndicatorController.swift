@@ -22,6 +22,7 @@ final class CursorIndicatorController {
     private static let waveformVisibleWidth: CGFloat = 70
     private static let stopButtonSize: CGFloat = 18
     private static let iconSize: CGFloat = 14
+    private static let feedbackForegroundColor = NSColor.systemGray
 
     // MARK: - Views
 
@@ -68,7 +69,6 @@ final class CursorIndicatorController {
         panel.isReleasedWhenClosed = false
         panel.isOpaque = false
         panel.backgroundColor = .clear
-        panel.appearance = NSAppearance(named: .darkAqua)
         panel.contentMinSize = size
         panel.contentMaxSize = size
 
@@ -136,7 +136,7 @@ final class CursorIndicatorController {
         // "Copied" / "Error" label
         copiedLabel.translatesAutoresizingMaskIntoConstraints = false
         copiedLabel.font = NSFont.systemFont(ofSize: 12, weight: .medium)
-        copiedLabel.textColor = .white
+        copiedLabel.textColor = Self.feedbackForegroundColor
         copiedLabel.isHidden = true
 
         // Horizontal stack — only the active child is visible at a time
@@ -274,7 +274,7 @@ final class CursorIndicatorController {
             iconView.isHidden = false
         case .iconWithLabel(let image, let label):
             iconView.image = image
-            iconView.contentTintColor = .white
+            iconView.contentTintColor = Self.feedbackForegroundColor
             iconView.isHidden = false
             copiedLabel.stringValue = label
             copiedLabel.isHidden = false
@@ -393,4 +393,3 @@ final class CursorIndicatorController {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: item)
     }
 }
-

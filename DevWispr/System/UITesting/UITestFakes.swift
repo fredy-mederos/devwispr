@@ -20,6 +20,9 @@ final class UITestAudioRecorder: AudioRecorder {
     var audioLevelPublisher: AnyPublisher<Double, Never> { Empty().eraseToAnyPublisher() }
     var recordingReadyPublisher: AnyPublisher<Void, Never> { Empty().eraseToAnyPublisher() }
     var recordingStoppedPublisher: AnyPublisher<Void, Never> { Empty().eraseToAnyPublisher() }
+    func currentInputDiagnostics() -> AudioInputDiagnostics {
+        AudioInputDiagnostics(deviceName: "ui-test-input", sampleRateHz: 0, channelCount: 0)
+    }
     func startEngine() throws {}
     func stopEngine() {}
     func startRecording() throws {}

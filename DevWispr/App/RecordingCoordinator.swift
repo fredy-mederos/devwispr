@@ -112,8 +112,9 @@ final class RecordingCoordinator {
             appState.lastError = nil
             analyticsService.logEvent(.recordingStarted(mode: mode == .hold ? "hold" : "toggle"))
         } catch {
+            logStartRecordingFailureIfNeeded(error)
             appState.status = .error
-            appState.lastError = String(localized: "Failed to start recording: \(error.localizedDescription)")
+            appState.lastError = userFacingStartRecordingErrorMessage(from: error)
             debugLog("Failed to start recording: \(error)")
         }
     }
@@ -413,6 +414,14 @@ final class RecordingCoordinator {
         }
     }
 
+    private func userFacingStartRecordingErrorMessage(from error: Error) -> String {
+        let nsError = error as NSError
+        if nsError.domain == "com.apple.coreaudio.avaudio", nsError.code == -10868 {
+            return String(localized: "Error initializing recording. Please restart DevWispr and try again.")
+        }
+        return String(localized: "Failed to start recording: \(error.localizedDescription)")
+    }
+
     private func logPipelineFailureIfNeeded(_ error: Error) {
         if let pipelineFailure = error as? PipelineFailure {
             switch pipelineFailure {
@@ -423,5 +432,22 @@ final class RecordingCoordinator {
             }
         }
         analyticsService.logEvent(.transcriptionFailed(error: userFacingErrorMessage(from: error)))
+    }
+
+    private func logStartRecordingFailureIfNeeded(_ error: Error) {
+        let nsError = error as NSError
+        guard nsError.domain == "com.apple.coreaudio.avaudio", nsError.code == -10868 else {
+            return
+        }
+        let diagnostics = audioRecorder.currentInputDiagnostics()
+        analyticsService.logEvent(
+            .recordingStartCoreAudioFormatError(
+                errorCode: nsError.code,
+                errorDomain: nsError.domain,
+                inputDevice: diagnostics.deviceName,
+                inputSampleRateHz: diagnostics.sampleRateHz,
+                inputChannelCount: diagnostics.channelCount
+            )
+        )
     }
 }

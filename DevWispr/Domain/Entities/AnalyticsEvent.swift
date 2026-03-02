@@ -11,6 +11,13 @@ enum AnalyticsEvent {
 
     // Recording pipeline
     case recordingStarted(mode: String)
+    case recordingStartCoreAudioFormatError(
+        errorCode: Int,
+        errorDomain: String,
+        inputDevice: String,
+        inputSampleRateHz: Int,
+        inputChannelCount: Int
+    )
     case recordingCompleted(durationMs: Int, mode: String)
     case recordingDiscarded(durationMs: Int)
     case transcriptionSucceeded(inputLanguage: String)
@@ -50,6 +57,7 @@ enum AnalyticsEvent {
         switch self {
         case .appLaunched: return "app_launched"
         case .recordingStarted: return "recording_started"
+        case .recordingStartCoreAudioFormatError: return "recording_start_coreaudio_format_error"
         case .recordingCompleted: return "recording_completed"
         case .recordingDiscarded: return "recording_discarded"
         case .transcriptionSucceeded: return "transcription_succeeded"
@@ -89,6 +97,20 @@ enum AnalyticsEvent {
             return ["version": version]
         case .recordingStarted(let mode):
             return ["mode": mode]
+        case .recordingStartCoreAudioFormatError(
+            let errorCode,
+            let errorDomain,
+            let inputDevice,
+            let inputSampleRateHz,
+            let inputChannelCount
+        ):
+            return [
+                "error_code": errorCode,
+                "error_domain": errorDomain,
+                "input_device": inputDevice,
+                "input_sample_rate_hz": inputSampleRateHz,
+                "input_channel_count": inputChannelCount,
+            ]
         case .recordingCompleted(let durationMs, let mode):
             return ["duration_ms": durationMs, "mode": mode]
         case .recordingDiscarded(let durationMs):

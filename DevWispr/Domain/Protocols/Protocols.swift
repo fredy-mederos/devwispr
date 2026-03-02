@@ -12,6 +12,7 @@ protocol AudioRecorder {
     func stopEngine()
     func startRecording() throws
     func stopRecording() throws -> URL
+    func currentInputDiagnostics() -> AudioInputDiagnostics
     var isRecording: Bool { get }
     /// Whether the audio engine is currently running (microphone is active).
     var isEngineRunning: Bool { get }

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Release DevWispr"
+  short_description: "Run DevWispr release pipeline"
+  default_prompt: "Execute the DevWispr release workflow end-to-end: resolve versioning, confirm version, run release script, tag, and publish GitHub release."

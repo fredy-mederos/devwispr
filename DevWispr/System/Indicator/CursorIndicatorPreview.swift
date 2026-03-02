@@ -59,16 +59,16 @@ private struct CursorPillPreviewView: View {
         case .transcribing:
             ProgressView()
                 .controlSize(.small)
-                .tint(.white)
+                .tint(.gray)
 
         case .copied:
             HStack(spacing: 6) {
                 Image(systemName: "doc.on.clipboard.fill")
                     .font(.system(size: 14))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.gray)
                 Text("Copied")
                     .font(.system(size: 12, weight: .medium))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.gray)
             }
 
         case .error:
@@ -136,4 +136,3 @@ private struct AudioWaveformRepresentable: NSViewRepresentable {
         }
     }
 }
-

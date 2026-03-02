@@ -62,13 +62,40 @@ final class AVAudioRecorderService: NSObject, AudioRecorder {
     private(set) var isRecording: Bool = false
     private var recordingStartTime: Date?
 
+    func currentInputDiagnostics() -> AudioInputDiagnostics {
+        let format = engine.inputNode.outputFormat(forBus: 0)
+        let sampleRateHz = max(0, Int(format.sampleRate.rounded()))
+        let channelCount = max(0, Int(format.channelCount))
+        let deviceName = AVCaptureDevice.default(for: .audio)?.localizedName ?? "unknown"
+        return AudioInputDiagnostics(
+            deviceName: deviceName,
+            sampleRateHz: sampleRateHz,
+            channelCount: channelCount
+        )
+    }
+
     func startEngine() throws {
         cancelEngineNap()
         isNapping = false
         guard !isEngineRunning else { return }
 
-        try startEngineInternal()
-        registerEngineObserver()
+        do {
+            try startEngineInternal()
+            registerEngineObserver()
+        } catch {
+            guard isCoreAudioFormatError(error) else {
+                throw error
+            }
+
+            debugLog("CoreAudio format/start error on engine start (\((error as NSError).code)) — attempting immediate engine recreation")
+            if tryRecoverEngineImmediatelyAfterStartFailure() {
+                return
+            }
+
+            // Kick off background retries and fail this attempt gracefully.
+            recreateEngine()
+            throw AudioRecorderError.engineNotReady
+        }
     }
 
     // Register the configuration-change observer on whatever engine instance
@@ -107,6 +134,33 @@ final class AVAudioRecorderService: NSObject, AudioRecorder {
         let fmt = engine.inputNode.outputFormat(forBus: 0)
         infoLog("Audio engine started (gen \(engineGeneration)) — format: \(fmt.sampleRate) Hz, \(fmt.channelCount) ch, isRunning=\(engine.isRunning)")
         startHealthCheckTimer()
+    }
+
+    private func isCoreAudioFormatError(_ error: Error) -> Bool {
+        let nsError = error as NSError
+        return nsError.domain == "com.apple.coreaudio.avaudio" && nsError.code == -10868
+    }
+
+    private func tryRecoverEngineImmediatelyAfterStartFailure() -> Bool {
+        stopHealthCheckTimer()
+        NotificationCenter.default.removeObserver(self, name: .AVAudioEngineConfigurationChange, object: engine)
+        engine.inputNode.removeTap(onBus: 0)
+        if engine.isRunning { engine.stop() }
+
+        engineGeneration += 1
+        engine = AVAudioEngine()
+        isEngineRunning = false
+        lastTapTime = nil
+
+        do {
+            try startEngineInternal()
+            registerEngineObserver()
+            debugLog("Immediate engine recovery succeeded (gen \(engineGeneration))")
+            return true
+        } catch {
+            debugLog("Immediate engine recovery failed: \(error)")
+            return false
+        }
     }
 
     @objc private func handleEngineConfigurationChange(_ notification: Notification) {
@@ -324,27 +378,53 @@ final class AVAudioRecorderService: NSObject, AudioRecorder {
 
         let input = engine.inputNode
         let format = input.outputFormat(forBus: 0)
-        let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent(UUID().uuidString)
-            .appendingPathExtension("m4a")
-
-        let channels = Int(format.channelCount)
-        let recordingSettings: [String: Any] = [
-            AVFormatIDKey: kAudioFormatMPEG4AAC,
-            AVSampleRateKey: format.sampleRate,
-            AVNumberOfChannelsKey: channels,
-            AVEncoderBitRateKey: 64_000,
-            AVEncoderAudioQualityKey: AVAudioQuality.medium.rawValue,
-        ]
-
-        outputFile = try AVAudioFile(forWriting: url, settings: recordingSettings)
-        recordingURL = url
+        let recordingFile = try createRecordingFile(for: format)
+        outputFile = recordingFile.file
+        recordingURL = recordingFile.url
         lock.lock()
         isRecording = true
         lock.unlock()
         recordingStartTime = Date()
 
         activateRecording()
+    }
+
+    private func createRecordingFile(for inputFormat: AVAudioFormat) throws -> (file: AVAudioFile, url: URL) {
+        let tempDir = FileManager.default.temporaryDirectory
+        let channels = max(1, min(Int(inputFormat.channelCount), 2))
+        let inputSampleRate = inputFormat.sampleRate > 0 ? inputFormat.sampleRate : 44_100
+        let preferredSampleRates = [inputSampleRate, 44_100.0, 48_000.0]
+
+        var lastError: Error?
+        for sampleRate in preferredSampleRates {
+            let url = tempDir.appendingPathComponent(UUID().uuidString).appendingPathExtension("m4a")
+            let settings: [String: Any] = [
+                AVFormatIDKey: kAudioFormatMPEG4AAC,
+                AVSampleRateKey: sampleRate,
+                AVNumberOfChannelsKey: channels,
+                AVEncoderBitRateKey: 64_000,
+                AVEncoderAudioQualityKey: AVAudioQuality.medium.rawValue,
+            ]
+            do {
+                let file = try AVAudioFile(forWriting: url, settings: settings)
+                debugLog("Recording file configured as AAC (\(Int(sampleRate)) Hz, \(channels) ch)")
+                return (file, url)
+            } catch {
+                lastError = error
+                debugLog("AAC recording file setup failed (\(Int(sampleRate)) Hz, \(channels) ch): \(error)")
+            }
+        }
+
+        // Last-resort fallback: capture in the native device PCM format, then
+        // let the transcription preprocessing stage transcode to m4a.
+        do {
+            let url = tempDir.appendingPathComponent(UUID().uuidString).appendingPathExtension("caf")
+            let file = try AVAudioFile(forWriting: url, settings: inputFormat.settings)
+            debugLog("Recording file fallback configured as native CAF (\(Int(inputFormat.sampleRate)) Hz, \(inputFormat.channelCount) ch)")
+            return (file, url)
+        } catch {
+            throw lastError ?? error
+        }
     }
 
     func stopRecording() throws -> URL {
